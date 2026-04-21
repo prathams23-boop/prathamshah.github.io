@@ -357,7 +357,7 @@ footer{text-align:center;padding:2rem;background:var(--ink);color:rgba(255,255,2
   <div class="pub-card">
     <div class="pub-icon">🧬</div>
     <div>
-      <div class="pub-title">Advancing plant DNA barcoding: integrating chloroplast genome sequencing, cryptic diversity discovery and machine learning<span class="status-pill">Published</span></div>
+      <div class="pub-title">Advancing plant DNA barcoding: integrating chloroplast genome sequencing, cryptic diversity discovery and machine learning<span class="status-pill">Under Review</span></div>
       <div class="pub-journal">Molecular Biology Reports · 2026</div>
       <div class="pub-meta">★ First-author publication</div>
       <a href="https://doi.org/10.1007/s11033-026-11736-8" target="_blank" style="display:inline-flex;align-items:center;gap:6px;margin-top:10px;font-size:12px;color:var(--teal);font-family:'DM Mono',monospace;text-decoration:none;border:1px solid var(--teal);padding:4px 12px;border-radius:100px;">🔗 View DOI</a>
@@ -496,33 +496,13 @@ footer{text-align:center;padding:2rem;background:var(--ink);color:rgba(255,255,2
 
         <div>
           <p style="font-family:'DM Mono',monospace;font-size:10.5px;color:rgba(255,255,255,0.3);text-transform:uppercase;letter-spacing:0.12em;margin-bottom:1rem;">Drop a message</p>
-          <div style="display:flex;flex-direction:column;gap:12px;">
+          <div id="cf-form" style="display:flex;flex-direction:column;gap:12px;">
             <input class="msg-input" type="text" id="cf-name" placeholder="Your name">
             <input class="msg-input" type="email" id="cf-email" placeholder="Your email (so Pratham can reply)">
             <textarea class="msg-input" id="cf-msg" rows="4" placeholder="Your message..." style="resize:vertical;"></textarea>
-            <button onclick="submitMessage()" style="background:var(--teal);color:#fff;border:none;border-radius:10px;padding:13px 24px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;transition:background 0.2s;" onmouseover="this.style.background='var(--teal-dark)'" onmouseout="this.style.background='var(--teal)'">Send Message</button>
-            <div id="cf-status" style="font-size:13px;text-align:center;padding:8px;display:none;border-radius:8px;"></div>
+            <button onclick="submitMessage()" id="cf-btn" style="background:var(--teal);color:#fff;border:none;border-radius:10px;padding:13px 24px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;transition:background 0.2s;" onmouseover="this.style.background='var(--teal-dark)'" onmouseout="this.style.background='var(--teal)'">Send Message</button>
+            <div id="cf-status" style="font-size:13px;text-align:center;padding:10px 14px;display:none;border-radius:10px;"></div>
           </div>
-        </div>
-      </div>
-
-      <!-- PRIVATE INBOX -->
-      <div style="margin-top:4rem;border-top:1px solid rgba(255,255,255,0.08);padding-top:3rem;">
-        <div id="inbox-lock" style="text-align:center;">
-          <p style="color:rgba(255,255,255,0.25);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:1rem;">🔒 Private Inbox</p>
-          <div style="display:flex;gap:10px;justify-content:center;align-items:center;max-width:380px;margin:0 auto;">
-            <input class="msg-input" type="password" id="inbox-pw" placeholder="Enter inbox password" style="flex:1;" onkeydown="if(event.key==='Enter')unlockInbox()">
-            <button onclick="unlockInbox()" style="background:rgba(255,255,255,0.09);color:#fff;border:1px solid rgba(255,255,255,0.15);border-radius:10px;padding:12px 18px;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap;font-family:'DM Sans',sans-serif;transition:all 0.2s;" onmouseover="this.style.background='rgba(26,158,122,0.3)'" onmouseout="this.style.background='rgba(255,255,255,0.09)'">View Inbox</button>
-          </div>
-          <div id="inbox-pw-err" style="color:#f4a261;font-size:12px;margin-top:8px;display:none;">Incorrect password. Try again.</div>
-        </div>
-
-        <div id="inbox-open" style="display:none;">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;">
-            <p style="color:rgba(255,255,255,0.4);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;">Received Messages</p>
-            <button onclick="lockInbox()" style="background:transparent;color:rgba(255,255,255,0.3);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:6px 14px;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;">🔒 Lock</button>
-          </div>
-          <div id="inbox-messages"></div>
         </div>
       </div>
     </div>
@@ -553,82 +533,56 @@ function switchTab(btn, panelId) {
   document.getElementById(panelId).classList.add('active');
 }
 
-// ── Messages ──
-const MSG_KEY = 'pratham_inbox_v1';
-// IMPORTANT: Change the password below to something only you know!
-const INBOX_PW = 'prathdumb568247';
-
+// ── Messages via Formspree ──
 async function submitMessage() {
   const name = document.getElementById('cf-name').value.trim();
   const email = document.getElementById('cf-email').value.trim();
   const msg = document.getElementById('cf-msg').value.trim();
   const status = document.getElementById('cf-status');
+  const btn = document.getElementById('cf-btn');
+
   if (!name || !email || !msg) {
-    showStatus('Please fill in all fields.', '#f4a261', 'rgba(255,79,0,0.1)');
+    status.style.display = 'block';
+    status.style.background = 'rgba(244,162,97,0.12)';
+    status.style.color = '#f4a261';
+    status.textContent = 'Please fill in all fields.';
     return;
   }
-  showStatus('Sending...', 'rgba(255,255,255,0.5)', 'transparent');
+
+  btn.disabled = true;
+  btn.textContent = 'Sending...';
+  btn.style.opacity = '0.7';
+
   try {
-    let msgs = [];
-    try { const r = await window.storage.get(MSG_KEY, true); if(r) msgs = JSON.parse(r.value); } catch(e) {}
-    msgs.push({ name, email, msg, time: new Date().toISOString() });
-    await window.storage.set(MSG_KEY, JSON.stringify(msgs), true);
-    showStatus('Message sent! Pratham will get back to you.', 'var(--teal-light)', 'rgba(26,158,122,0.1)');
-    document.getElementById('cf-name').value = '';
-    document.getElementById('cf-email').value = '';
-    document.getElementById('cf-msg').value = '';
+    const res = await fetch('https://formspree.io/f/xzdyjbwn', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ name, email, message: msg })
+    });
+
+    if (res.ok) {
+      status.style.display = 'block';
+      status.style.background = 'rgba(26,158,122,0.12)';
+      status.style.color = 'var(--teal-light)';
+      status.textContent = '✓ Message sent! Pratham will get back to you.';
+      document.getElementById('cf-name').value = '';
+      document.getElementById('cf-email').value = '';
+      document.getElementById('cf-msg').value = '';
+      btn.textContent = 'Sent!';
+      btn.style.background = 'var(--teal-dark)';
+    } else {
+      throw new Error('Failed');
+    }
   } catch(e) {
-    showStatus('Could not send. Please email prathams23@iiserb.ac.in directly.', '#f4a261', 'rgba(255,79,0,0.1)');
+    status.style.display = 'block';
+    status.style.background = 'rgba(244,162,97,0.12)';
+    status.style.color = '#f4a261';
+    status.textContent = 'Something went wrong. Please email prathams23@iiserb.ac.in directly.';
+    btn.disabled = false;
+    btn.textContent = 'Send Message';
+    btn.style.opacity = '1';
   }
 }
-
-function showStatus(text, color, bg) {
-  const s = document.getElementById('cf-status');
-  s.style.display = 'block'; s.style.color = color; s.style.background = bg; s.textContent = text;
-}
-
-function unlockInbox() {
-  if (document.getElementById('inbox-pw').value === INBOX_PW) {
-    document.getElementById('inbox-lock').style.display = 'none';
-    document.getElementById('inbox-open').style.display = 'block';
-    document.getElementById('inbox-pw-err').style.display = 'none';
-    loadMessages();
-  } else {
-    document.getElementById('inbox-pw-err').style.display = 'block';
-  }
-}
-
-function lockInbox() {
-  document.getElementById('inbox-lock').style.display = 'block';
-  document.getElementById('inbox-open').style.display = 'none';
-  document.getElementById('inbox-pw').value = '';
-}
-
-async function loadMessages() {
-  const c = document.getElementById('inbox-messages');
-  c.innerHTML = '<p style="color:rgba(255,255,255,0.3);font-size:13.5px;text-align:center;padding:2rem;">Loading...</p>';
-  try {
-    const r = await window.storage.get(MSG_KEY, true);
-    if (!r) { c.innerHTML = noMsgs(); return; }
-    const msgs = JSON.parse(r.value);
-    if (!msgs.length) { c.innerHTML = noMsgs(); return; }
-    c.innerHTML = msgs.slice().reverse().map(m => {
-      const d = new Date(m.time);
-      return `<div class="inbox-msg">
-        <div class="inbox-msg-header">
-          <div><div class="inbox-msg-sender">${esc(m.name)}</div><div class="inbox-msg-email">${esc(m.email)}</div></div>
-          <div class="inbox-msg-time">${d.toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})} · ${d.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'})}</div>
-        </div>
-        <div class="inbox-msg-body">${esc(m.msg)}</div>
-      </div>`;
-    }).join('');
-  } catch(e) {
-    c.innerHTML = '<p style="color:#f4a261;font-size:13px;text-align:center;padding:1rem;">Failed to load. The inbox uses storage that only works when this file is hosted on your website (not when opened directly from your desktop).</p>';
-  }
-}
-
-function noMsgs() { return '<p style="color:rgba(255,255,255,0.3);font-size:13.5px;text-align:center;padding:2.5rem;">No messages yet. They will appear here once someone sends you one.</p>'; }
-function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 </script>
 </body>
 </html>
