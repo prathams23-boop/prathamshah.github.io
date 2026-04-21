@@ -455,56 +455,95 @@ footer{text-align:center;padding:2rem;background:var(--ink);color:rgba(255,255,2
 <section id="resources" class="fade-up">
   <p class="section-label">// Resources</p>
   <h2>Curated Learning Resources</h2>
+
   <p style="font-size:15px;color:var(--ink-mid);margin-top:-1.5rem;margin-bottom:2.4rem;max-width:700px;line-height:1.8;">
     As someone who started as a hardcore biology student and slowly found my way into the computational world, I know how overwhelming it can feel at first. These are resources I personally found invaluable on that journey — handpicked for biology students trying to bridge into bioinformatics, programming, and machine learning.
   </p>
+
+  <!-- Tabs -->
   <div class="res-tabs">
     <button class="res-tab active" onclick="switchTab(this,'tab-bio')">🧬 Bioinformatics</button>
-    <button class="res-tab active" onclick="switchTab(this,'tab-py')">🐍 Python</button>
-    <button class="res-tab active" onclick="switchTab(this,'tab-ml')">🤖 Machine Learning</button>
-    <button class="res-tab active" onclick="switchTab(this,'tab-misc')">📦 Miscellaneous</button>
+    <button class="res-tab" onclick="switchTab(this,'tab-py')">🐍 Python</button>
+    <button class="res-tab" onclick="switchTab(this,'tab-ml')">🤖 Machine Learning</button>
+    <button class="res-tab" onclick="switchTab(this,'tab-misc')">📦 Miscellaneous</button>
   </div>
+
+  <!-- BIO TAB -->
   <div id="tab-bio" class="res-panel active">
     <div class="res-grid">
+
       <div class="res-card">
-  <div class="res-type">Book</div>
-  <div class="res-title">Concepts in Bioinformatics and Genomics</div>
-  <div class="res-desc">Trust me, this is the ONLY book you will need to master the basics of bioinformatics methods and algorithms, even if you are starting from absolute 0.</div>
-  <a href="https://global.oup.com/ushe/product/concepts-in-bioinformatics-and-genomics-9780198882381?cc=in&lang=en&" target="_blank" class="res-link">Open Resource →</a>
-</div>
+        <div class="res-type">Book</div>
+        <div class="res-title">Concepts in Bioinformatics and Genomics</div>
+        <div class="res-desc">
+          Trust me, this is the ONLY book you will need to master the basics of bioinformatics methods and algorithms, even if you are starting from absolute 0.
+        </div>
+        <a href="https://global.oup.com/ushe/product/concepts-in-bioinformatics-and-genomics-9780198882381?cc=in&lang=en&" target="_blank" class="res-link">Open Resource →</a>
+      </div>
+
       <div class="res-card">
-  <div class="res-type">Course</div>
-  <div class="res-title">Bioinformatics Methods (Coursera)</div>
-  <div class="res-desc">This is a paid course, but you won't regret this investment.</div>
-  <a href="https://www.coursera.org/learn/bioinformatics-methods-1?utm_medium=sem&utm_source=gg&utm_campaign=b2c_india_x_multi_ftcof_career-academy_cx_dr_bau_gg_pmax_gc_in_all_m_hyb_24-03_desktop&campaignid=21104989118&adgroupid=&device=c&keyword=&matchtype=&network=x&devicemodel=&creativeid=&assetgroupid=6566742186&targetid=&extensionid=&placement=&gad_source=1&gad_campaignid=21104990591&gbraid=0AAAAADdKX6b4tzQJeCzabEm5P3wnloah2&gclid=CjwKCAjwwJzPBhBREiwAJfHRnQQf-tTYI8JRJ2jV_H4JwQhouCxXZUbDcmYlSEIxh4thrDtFeQ2VZRoCdEsQAvD_BwE" target="_blank" class="res-link">Open Resource →</a>
-</div>
-      
+        <div class="res-type">Course</div>
+        <div class="res-title">Bioinformatics Methods (Coursera)</div>
+        <div class="res-desc">
+          This is a paid course, but you won't regret this investment.
+        </div>
+        <a href="https://www.coursera.org/learn/bioinformatics-methods-1" target="_blank" class="res-link">Open Resource →</a>
+      </div>
+
+    </div>
   </div>
+
+  <!-- PYTHON TAB -->
   <div id="tab-py" class="res-panel">
     <div class="res-grid">
+
       <div class="res-card">
-  <div class="res-type">Video</div>
-  <div class="res-title">Luke Barousse</div>
-  <div class="res-desc">Do not try to finish this in one go, especially if you are a first time coder (like me). Watch a couple sessions, practice some problems, and then proceed further.</div>
-  <a href="https://youtu.be/wUSDVGivd-8?si=AwPvD7EjRGusS9vG" target="_blank" class="res-link">Open Resource →</a>
-</div>
+        <div class="res-type">Video</div>
+        <div class="res-title">Luke Barousse</div>
+        <div class="res-desc">
+          Do not try to finish this in one go, especially if you are a first time coder (like me). Watch a couple sessions, practice some problems, and then proceed further.
+        </div>
+        <a href="https://youtu.be/wUSDVGivd-8" target="_blank" class="res-link">Open Resource →</a>
+      </div>
+
       <div class="res-card">
-  <div class="res-type">Handbook</div>
-  <div class="res-title">Python for Science and Engineering</div>
-  <div class="res-desc">A good cheatsheet for beginners.</div>
-  <a href="https://share.google/9rfLlK6EKayUwVGMF" target="_blank" class="res-link">Open Resource →</a>
-</div>
-  </div>
+        <div class="res-type">Handbook</div>
+        <div class="res-title">Python for Science and Engineering</div>
+        <div class="res-desc">
+          A good cheatsheet for beginners.
+        </div>
+        <a href="https://share.google/9rfLlK6EKayUwVGMF" target="_blank" class="res-link">Open Resource →</a>
+      </div>
+
+    </div>
+  </div> <!-- ✅ FIXED: properly closed -->
+
+  <!-- ML TAB -->
   <div id="tab-ml" class="res-panel">
     <div class="res-grid">
-      <div class="res-empty"><span class="ei">🤖</span>Machine learning resources coming soon.<br><span style="font-size:12px;color:var(--ink-muted);">Check back after Pratham adds his picks.</span></div>
+      <div class="res-empty">
+        <span class="ei">🤖</span>
+        Machine learning resources coming soon.<br>
+        <span style="font-size:12px;color:var(--ink-muted);">
+          Check back after Pratham adds his picks.
+        </span>
+      </div>
     </div>
   </div>
+
+  <!-- MISC TAB -->
   <div id="tab-misc" class="res-panel">
     <div class="res-grid">
-      <div class="res-empty"><span class="ei">📦</span>Miscellaneous resources coming soon.<br><span style="font-size:12px;color:var(--ink-muted);">Check back after Pratham adds his picks.</span></div>
+      <div class="res-empty">
+        <span class="ei">📦</span>
+        Miscellaneous resources coming soon.<br>
+        <span style="font-size:12px;color:var(--ink-muted);">
+          Check back after Pratham adds his picks.
+        </span>
+      </div>
     </div>
   </div>
+
 </section>
 
 <!-- CONTACT -->
